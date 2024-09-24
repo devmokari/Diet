@@ -1,6 +1,9 @@
+@import url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir.css'); /* Importing the Persian font */
+
 body {
-  font-family: 'Arial', sans-serif;
-  background-color: #f7f7f7;
+  font-family: 'Vazir', sans-serif;
+  background: url('/static/images/food-table.jpg') no-repeat center center fixed;
+  background-size: cover;
   margin: 0;
   padding: 0;
   direction: rtl;
@@ -8,71 +11,69 @@ body {
 }
 
 .container {
-  max-width: 900px;
-  margin: 40px auto;
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.1); /* Slightly more opaque */
+  border-radius: 15px; /* Rounder corners */
   padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2); /* Bigger shadow */
+  max-width: 1000px;
+  margin: 70px auto; /* Increase vertical margin */
 }
 
 h1 {
   text-align: center;
-  color: #333;
-  font-size: 28px;
-  margin-bottom: 20px;
+  color: #ffffff;
+  font-size: 36px; /* Bigger font */
+  margin-bottom: 30px;
   font-weight: bold;
 }
 
 h3 {
-  font-size: 20px;
-  color: #444;
-  margin-bottom: 10px;
+  font-size: 24px; /* Larger section headings */
+  color: #333;
+  margin-bottom: 15px;
   font-weight: bold;
 }
 
 .meals-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
+  grid-template-columns: repeat(2, 1fr); /* 2 columns layout */
+  gap: 25px; /* More space between items */
 }
 
 .meal-section {
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background-color: #fafafa;
+  background-color: white;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.1);
 }
 
 .categories-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
+  grid-template-columns: repeat(2, 1fr); /* 2 columns within categories */
+  gap: 15px;
 }
 
 .category-item {
-  display: flex;
-  flex-direction: column;
+  margin-bottom: 20px;
 }
 
 label {
-  font-size: 16px;
+  font-size: 18px; /* Larger labels */
   color: #333;
   margin-bottom: 5px;
 }
 
 .unit-select {
-  font-size: 14px;
-  padding: 6px 10px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  background-color: #fff;
   width: 100%;
-  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.05);
+  padding: 12px; /* Increase padding */
+  font-size: 18px; /* Larger text */
+  border-radius: 6px; /* Rounder corners */
+  border: 1px solid #bbb;
 }
 
 .unit-select:focus {
   border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Add a glow effect on focus */
 }
 
 .half-unit {
@@ -82,7 +83,7 @@ label {
 .edit-link {
   text-decoration: none;
   color: #333;
-  font-size: 28px;
+  font-size: 32px; /* Larger icon for edit */
   margin-left: 10px;
 }
 
@@ -96,7 +97,7 @@ label {
   border: none;
   padding: 0;
   cursor: pointer;
-  font-size: 18px;
+  font-size: 22px; /* Larger icon for button */
   margin-left: 10px;
   display: inline-flex;
   align-items: center;
