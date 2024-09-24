@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ویرایش رژیم غذایی</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/edit.css') }}"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h1>ویرایش رژیم غذایی</h1>
+
+      <form method="POST" action="{{ url_for('edit') }}">
+        {% for meal, categories in meals.items() %}
+        <div class="meal-section">
+          <h2>{{ meal }}</h2>
+          <div class="meal-form">
+            {% for category, amount in categories.items() %}
+            <div class="form-group">
+              <!-- <label>{{ category }}:</label> -->
+              <input
+                type="number"
+                step="0.5"
+                name="{{ meal }}-{{ category }}"
+                value="{{ amount }}"
+              />
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        {% endfor %}
+        <button type="submit" class="submit-btn">ذخیره</button>
+      </form>
+
+      <a class="back-link" href="{{ url_for('index') }}">بازگشت به صفحه اصلی</a>
+    </div>
+  </body>
+</html>

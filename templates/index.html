@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>فرم ثبت رژیم غذایی</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/styles.css') }}"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h1>
+        <a href="#" class="edit-link" onclick="verifyAdmin()">رژیم غذایی</a>
+        <button class="edit-btn" onclick="verifyAdmin()">
+          <i class="fas fa-pen"></i>
+        </button>
+      </h1>
+
+      <!-- Date Picker to Select or Load Meals by Date -->
+      <div class="date-picker">
+        <label for="selected-date">انتخاب تاریخ:</label>
+        <input type="date" id="selected-date" value="{{ current_date }}" />
+      </div>
+
+      <div class="meals-grid">
+        {% for meal, categories in meals.items() %}
+        <div class="meal-section">
+          <h3>{{ meal }}</h3>
+
+          <div class="categories-grid">
+            {% for category, amount in categories.items() %}
+            <div class="category-item">
+              <label>{{ category }}</label>
+
+              {% for i in range(amount|int) %}
+              <select class="unit-select" onchange="saveSelection()">
+                <option value="">۱ واحد</option>
+                {% for type in types[category] %}
+                <option>{{ type }}</option>
+                {% endfor %}
+              </select>
+              {% endfor %} {% if amount % 1 == 0.5 %}
+              <select class="unit-select" onchange="saveSelection()">
+                <option value="">نیم واحد</option>
+                {% for type in types[category] %}
+                <option>{{ type }}</option>
+                {% endfor %}
+              </select>
+              {% endif %}
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+  </body>
+</html>
