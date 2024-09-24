@@ -5,7 +5,7 @@ from datetime import datetime
 
 app = Flask(__name__)
 
-SAVE_DIR = 'daily_files'
+SAVE_DIR = '/tmp/daily_files'
 
 # Ensure the save directory exists
 if not os.path.exists(SAVE_DIR):
@@ -66,4 +66,4 @@ def load_selections(date):
         return jsonify({})
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5001)
+    app.run(debug=True, host='0.0.0.0', port=8080)
