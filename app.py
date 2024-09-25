@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, jsonify
 import json
 import os
 from datetime import datetime
+from meals import *
 
 app = Flask(__name__)
 
@@ -12,20 +13,9 @@ if not os.path.exists(SAVE_DIR):
     os.makedirs(SAVE_DIR)
 
 # Load meals from the JSON file
-def load_meals():
-    try:
-        with open('meals.json', 'r', encoding='utf-8') as file:
-            return json.load(file)
-    except FileNotFoundError:
-        return {}  # Return an empty dict if meals.json does not exist
+def load(index):
+    return json.loads(get_meal(index))
 
-# Load types from the JSON file
-def load_types():
-    try:
-        with open('types.json', 'r', encoding='utf-8') as file:
-            return json.load(file)
-    except FileNotFoundError:
-        return {}  # Return an empty dict if types.json does not exist
 
 # Save meals for a specific date
 def save_meals_for_date(date_str, meals):
@@ -44,8 +34,8 @@ def load_meals_for_date(date_str):
 # Index route to display the meals page
 @app.route('/')
 def index():
-    meals = load_meals()
-    types = load_types()
+    meals = load("meals")
+    types = load("types")
     current_date = datetime.now().strftime('%Y-%m-%d')  # Get the current date
     return render_template('index.html', meals=meals, types=types, current_date=current_date)
 
