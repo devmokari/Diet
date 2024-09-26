@@ -33,9 +33,6 @@
 
 /setup.cfg
 
-# Ignore daily_files directory
-
-daily_files/
 
 # Ignore the virtual environment directory
 
