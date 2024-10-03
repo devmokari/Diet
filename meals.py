@@ -21,6 +21,13 @@ def add_meal(meal_id, meals):
     except ClientError as e:
         print(f"Error adding meal: {e}")
 
+def save(meal_id, meals):
+    try:
+        meals_json = json.dumps(meals)
+        meals_table.put_item(Item={'meal_id': meal_id, 'meals': meals_json})
+    except ClientError as e:
+        print(f"Error saving meal: {e}")
+
 # Example: Get meal details from DynamoDB
 def load(meal_id):
     try:

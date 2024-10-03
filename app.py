@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, redirect
 import json
 import os
 from datetime import datetime
@@ -14,10 +14,25 @@ def index():
     current_date = datetime.now().strftime('%Y-%m-%d')  # Get the current date
     return render_template('index.html', meals=meals, types=types, current_date=current_date)
 
-@app.route('/edit')
+@app.route('/edit', methods=['GET', 'POST'])
 def edit():
-    meals = load("meals")
-    return render_template('edit.html', meals=meals)
+    if request.method == 'POST':
+        meals = {}
+        for key, value in request.form.items():
+            meal, category = key.split('-', 1)
+            try:
+                amount = float(value)
+            except ValueError:
+                amount = 0.0  # Default to 0.0 if conversion fails
+            if meal not in meals:
+                meals[meal] = {}
+            meals[meal][category] = amount
+        save('meals', meals)
+        return render_template('edit.html', meals=meals)
+    else:
+        meals = load("meals")
+        return render_template('edit.html', meals=meals)
+
 
 # Route to save selections for a specific date
 @app.route('/save-selections/<date>', methods=['POST'])
