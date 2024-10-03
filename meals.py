@@ -6,12 +6,12 @@ import json
 dynamodb = boto3.resource('dynamodb', region_name='ap-southeast-2')
 
 # Select your DynamoDB table
-meals = dynamodb.Table('Meals')
-users = dynamodb.Table('User')
+meals_table = dynamodb.Table('Meals')
+users_table = dynamodb.Table('User')
 # Example: Add a meal entry to the DynamoDB table
 def add_meal(meal_id, meals):
     try:
-        meals.put_item(
+        meals_table.put_item(
             Item={
                 'meal_id': meal_id,
                 'meals': meals  # meals is the field storing all meal-related data
@@ -21,37 +21,29 @@ def add_meal(meal_id, meals):
     except ClientError as e:
         print(f"Error adding meal: {e}")
 
-def load(index):
-    return json.loads(get_meal(index))
-
 # Example: Get meal details from DynamoDB
-def get_meal(meal_id):
+def load(meal_id):
     try:
-        response = meals.get_item(Key={'meal_id': meal_id})
-        return response.get('Item', None).get(meal_id, None)
+        response = meals_table.get_item(Key={'meal_id': meal_id})
+        meals  = response.get('Item', None).get(meal_id, None)
+        return json.loads(meals)
     except ClientError as e:
         print(f"Error retrieving meal: {e}")
         return None
     
 def get_user_date(user_id):
     try:
-        response = users.get_item(Key={'user_id': user_id})
+        response = users_table.get_item(Key={'user_id': user_id})
         return response.get('Item', None)
     except ClientError as e:
         print(f"Error retrieving user: {e}")
         return None
-    
-def get_report(date):
-    data = get_user_date('Sam')
-    report = data.get('report', {})
-    return report.get(date,"{}")
 
 
-def update_or_insert_report( date, new_report_data):
-    user_id = 'Sam'
+def update_or_insert_report(user_id, date, new_report_data):
     try:
         # Retrieve user data from DynamoDB
-        response = users.get_item(Key={'user_id': user_id})
+        response = users_table.get_item(Key={'user_id': user_id})
         data = response.get('Item', None)
 
         # If the user doesn't exist, initialize a new record
@@ -65,7 +57,7 @@ def update_or_insert_report( date, new_report_data):
         data['report'][date] = json.dumps(new_report_data, ensure_ascii=False, indent=4)  # Convert dict to JSON string
 
         # Save the updated report back to the database
-        users.put_item(Item=data)
+        users_table.put_item(Item=data)
         print("Report updated successfully.")
         
     except ClientError as e:
@@ -75,7 +67,7 @@ def update_or_insert_report( date, new_report_data):
 # Example: Update a meal in DynamoDB
 def update_meal(meal_id, updated_meals):
     try:
-        meals.update_item(
+        meals_table.update_item(
             Key={'meal_id': meal_id},
             UpdateExpression="set meals=:m",  # updating the 'meals' field
             ExpressionAttributeValues={':m': updated_meals},

@@ -14,20 +14,27 @@ def index():
     current_date = datetime.now().strftime('%Y-%m-%d')  # Get the current date
     return render_template('index.html', meals=meals, types=types, current_date=current_date)
 
+@app.route('/edit')
+def edit():
+    meals = load("meals")
+    return render_template('edit.html', meals=meals)
+
 # Route to save selections for a specific date
 @app.route('/save-selections/<date>', methods=['POST'])
 def save_selections(date):
     selections = request.get_json()  # Get the JSON data from the request
-    update_or_insert_report(date, selections)  # Save meals for the selected date
+    update_or_insert_report('Sam',date, selections)  # Save meals for the selected date
     return jsonify({'status': 'success'})
 
 # Route to load selections for a specific date
 @app.route('/load-selections/<date>', methods=['GET'])
 def load_selections(date):
-    report = get_report(date)
+    data = get_user_date('Sam')
+    reports = data.get('report', {})
+    report=  reports.get(date,"{}")
     meals = json.loads(report)
-    res = jsonify(meals)
-    return res
+    return jsonify(meals)
+
 
 
 if __name__ == '__main__':
