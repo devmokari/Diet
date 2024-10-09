@@ -55,13 +55,13 @@ def update_or_insert_report(user_id, date, new_report_data):
 
         # If the user doesn't exist, initialize a new record
         if data is None:
-            data = {'user_id': user_id, 'report': {}}
+            data = {'user_id': user_id, 'reports': {}}
         else:
             # Extract the current report data
-            report = data.get('report', {})
+            report = data.get('reports', {})
         
         # Update the specific date's report with new data
-        data['report'][date] = json.dumps(new_report_data, ensure_ascii=False, indent=4)  # Convert dict to JSON string
+        data['reports'][date] = json.dumps(new_report_data, ensure_ascii=False, indent=4)  # Convert dict to JSON string
 
         # Save the updated report back to the database
         users_table.put_item(Item=data)

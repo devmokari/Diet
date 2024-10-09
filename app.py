@@ -38,14 +38,14 @@ def edit():
 @app.route('/save-selections/<date>', methods=['POST'])
 def save_selections(date):
     selections = request.get_json()  # Get the JSON data from the request
-    update_or_insert_report('Sam',date, selections)  # Save meals for the selected date
+    update_or_insert_report('sam',date, selections)  # Save meals for the selected date
     return jsonify({'status': 'success'})
 
 # Route to load selections for a specific date
 @app.route('/load-selections/<date>', methods=['GET'])
 def load_selections(date):
-    data = get_user_date('Sam')
-    reports = data.get('report', {})
+    data = get_user_date('sam')
+    reports = data.get('reports', {})
     report=  reports.get(date,"{}")
     meals = json.loads(report)
     return jsonify(meals)
